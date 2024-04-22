@@ -7,10 +7,7 @@ background: https://cover.sli.dev
 # some information about your slides, markdown enabled
 title: プログラマーもすなるVue.jsといふものを以てブログというものを作らんとて作るなり
 info: |
-  ## Slidev Starter Template
-  Presentation slides for developers.
-
-  Learn more at [Sli.dev](https://sli.dev)
+  [UV Study : Vue\.js LT会 \- connpass](https://uniquevision.connpass.com/event/311383/)のスライドです。
 # apply any unocss classes to the current slide
 class: text-center
 # https://sli.dev/custom/highlighters.html
@@ -71,18 +68,17 @@ url: https://011.vuejs.org/
 
 # 書き方に歴史を感じる
 
-## `yyx990803` や…
-
-```bash
-npm install yyx990803/vue#dev
-```
-
 ## `var` や…
 ```js
 var vm = new Vue({
   /* options */ 
 })
 ```
+
+## `v-repeat` や…
+
+> Directives can encapsulate arbitrary DOM manipulations. For example `v-attr` manipulates an element’s attributes, <span color="red">`v-repeat`</span> clones an element based on an Array, `v-on` attaches event listeners… we will cover them later.
+
 
 ---
 layout: statement
@@ -249,7 +245,7 @@ layout: statement
 ```
 ```bash
 /content
-  └articles # こうするとファイルをソートしつつ `articles/<slug>` で記事を取得できる
+  └articles # こうする（日付部分は取得時は無視される）
     ├── 20240101.hoge.md
     ├── 20240102.fuga.md
     ├── 20240103.foo.md
@@ -257,6 +253,59 @@ layout: statement
     └── 20240105.piyo.md
 ```
 ````
+
+---
+
+# カテゴリーやタグ情報はYAMLで定義しておく
+
+<div class="grid grid-cols-2 gap-4">
+<div>
+
+## カテゴリー<br>`/content/categories.yml`
+
+```yml
+- id: category-1
+  name: カテゴリー1
+- id: category-2
+  name: カテゴリー2
+- id: category-3
+  name: カテゴリー3
+```
+
+</div>
+<div>
+
+## タグ<br>`/content/tags.yml`
+
+```yml
+- id: tag-1
+  name: タグ1
+- id: tag-2
+  name: タグ2
+- id: tag-3
+  name: タグ3
+```
+
+</div>
+</div>
+
+---
+
+# 最終的な `content` の構成
+
+`/content` 配下においたものがNuxt Contentの管理対象になる
+
+```bash
+/content
+  ├── categories.yml # カテゴリー
+  ├── tags.yml # タグ
+  └articles # 記事
+    ├── 20240101.hoge.md
+    ├── 20240102.fuga.md
+    ├── 20240103.foo.md
+    ├── 20240104.bar.md
+    └── 20240105.piyo.md
+```
 
 ---
 layout: statement
@@ -296,14 +345,49 @@ const articles = await queryContent('articles')
 ```
 ````
 
+## 対象範囲
+
+```bash {4-9}
+/content
+  ├── categories.yml # カテゴリー
+  ├── tags.yml # タグ
+  └articles # 記事
+    ├── 20240101.hoge.md
+    ├── 20240102.fuga.md
+    ├── 20240103.foo.md
+    ├── 20240104.bar.md
+    └── 20240105.piyo.md
+```
+
 ---
 
 # `queryContent()` による記事の取得
 
 ## `count()` 記事の件数を取得
 
+````md magic-move
 ```ts
 const count = await queryContent('articles').count()
+```
+```ts
+const count = await queryContent('articles')
+  .where({ category: 'category-1' })
+  .count()
+```
+````
+
+## 対象範囲
+
+```bash {4-9}
+/content
+  ├── categories.yml # カテゴリー
+  ├── tags.yml # タグ
+  └articles # 記事
+    ├── 20240101.hoge.md
+    ├── 20240102.fuga.md
+    ├── 20240103.foo.md
+    ├── 20240104.bar.md
+    └── 20240105.piyo.md
 ```
 
 ---
@@ -317,6 +401,71 @@ const article = await queryContent(
   `articles/${slug}`
 ).findOne()
 ```
+
+## 対象範囲
+
+```bash {4-9}
+/content
+  ├── categories.yml # カテゴリー
+  ├── tags.yml # タグ
+  └articles # 記事
+    ├── 20240101.hoge.md
+    ├── 20240102.fuga.md
+    ├── 20240103.foo.md
+    ├── 20240104.bar.md
+    └── 20240105.piyo.md
+```
+
+---
+
+# カテゴリー・タグ情報を取得する
+
+```ts
+// YAMLファイルになっても基本は同じ
+const articles = await queryContent('categories')
+  .findOne();
+```
+
+<div class="grid grid-cols-2 gap-4">
+<div>
+
+## 対象範囲
+
+```bash {2}
+/content
+  ├── categories.yml # カテゴリー
+  ├── tags.yml # タグ
+  └articles # 記事
+    ├── 20240101.hoge.md
+    ├── 20240102.fuga.md
+    ├── 20240103.foo.md
+    ├── 20240104.bar.md
+    └── 20240105.piyo.md
+```
+
+</div>
+<div>
+
+## 取得結果
+
+```ts
+[
+  {
+    _path: '/hello',
+    _draft: false,
+    _partial: false,
+    id: 'category-1',
+    name: 'カテゴリー1',
+    _id: 'content:categories.yml',
+    _type: 'yaml',
+    _source: 'content',
+    _file: 'categories.yml',
+    _extension: 'yml'
+  },
+]
+```
+</div>
+</div>
 
 ---
 layout: statement
@@ -352,8 +501,14 @@ ogImage: /images/og-image.png # og:image に使う画像
 publishedAt: 2024-04-23 # 記事の公開日（本当はcommitの日時を使いたい）
 ---
 ```
+<div v-click>
+<span >ただし、このままだとデフォルトの項目以外は型が効かない</span>
 
-<span v-click>ただし、このままだとデフォルトの項目以外は型が効かない</span>
+```ts
+const article = await queryContent(`articles/${slug}`).findOne();
+      // ここで型が効かない
+```
+</div>
 
 ---
 
@@ -411,6 +566,8 @@ const article = await queryContent<Article>(
 
 ```vue
 <script lang="ts" setup>
+
+// 重複してfetchしないように `useAsyncData()` でラップする
 const { data: articles } = await useAsyncData(
   'articles',
   () => queryContent('articles').find(),
@@ -425,6 +582,8 @@ const { data: articles } = await useAsyncData(
 ````md magic-move
 ```vue
 <script lang="ts" setup>
+
+// 重複してfetchしないように `useAsyncData()` でラップする
 const { data: articles } = await useAsyncData(
   'articles',
   () => queryContent('articles').find(),
@@ -433,6 +592,8 @@ const { data: articles } = await useAsyncData(
 ```
 ```vue
 <script lang="ts" setup>
+
+// 重複してfetchしないように `useAsyncData()` でラップする
 const { data: articles } = await useAsyncData(
   'articles',
   () => queryContent('articles')
@@ -444,6 +605,8 @@ const { data: articles } = await useAsyncData(
 ```
 ```vue
 <script lang="ts" setup>
+
+// 重複してfetchしないように `useAsyncData()` でラップする
 const { data: articles } = await useAsyncData(
   'articles',
   () => queryContent('articles')
@@ -492,6 +655,12 @@ const { data: article } = await useAsyncData(
 ```
 
 ---
+layout: statement
+---
+
+# 完成
+
+---
 
 # まとめ
 
@@ -507,3 +676,4 @@ const { data: article } = await useAsyncData(
 - [Installation \- Nuxt Content](https://content.nuxt.com/get-started/installation)
 - [queryContent\(\) \- Nuxt Content](https://content.nuxt.com/composables/query-content)
 - [Markdown \- Nuxt Content](https://content.nuxt.com/usage/markdown)
+- [JSON, YAML, CSV \- Nuxt Content](https://content.nuxt.com/usage/files)
