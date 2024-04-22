@@ -1,0 +1,20 @@
+p,
+li,
+code[class*="language-"],
+.slidev-layout kbd,
+table {
+  font-size: 24px;
+}
+
+code {
+  line-height: normal;
+}
+
+ul li {
+  margin: 12px 0;
+}
+
+:root {
+    --slidev-code-font-size: 24px;
+    --slidev-code-line-height: 1.5;
+}
