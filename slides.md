@@ -696,4 +696,4 @@ layout: statement
 - [queryContent\(\) \- Nuxt Content](https://content.nuxt.com/composables/query-content)
 - [Markdown \- Nuxt Content](https://content.nuxt.com/usage/markdown)
 - [JSON, YAML, CSV \- Nuxt Content](https://content.nuxt.com/usage/files)
-- [<ContentRenderer> \- Nuxt Content](https://content.nuxt.com/components/content-renderer)
+- [\<ContentRenderer\> \- Nuxt Content](https://content.nuxt.com/components/content-renderer)
