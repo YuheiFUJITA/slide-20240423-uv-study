@@ -58,8 +58,17 @@ layout: statement
 
 ---
 
-# 私はVue 2（近代文）のことを古文と言いました
+<Tweet id="1777158426428383526" scale="1.5" />
+
+---
+
 <Tweet id="1777161433295536564" scale="1.5" />
+
+---
+layout: statement
+---
+
+# 「私はVue 2（近代文）の<br>ことを古文と言いました」
 
 ---
 layout: iframe-left
@@ -96,7 +105,7 @@ layout: statement
 - Vuetify 3
   - UIフレームワーク
   - いろいろあったけどもうコンポーネント揃ってきた
-- microCMS<span v-click>←ここで困った</span>
+- <span v-mark="{ at: '1', color: 'red', type: 'circle' }">microCMS</span><span v-click>←ここで困った</span>
   - ヘッドレスCMS
 
 ---
@@ -205,6 +214,8 @@ export default defineNuxtConfig({
 ```
 ````
 
+<small>[Installation \- Nuxt Content](https://content.nuxt.com/get-started/installation)</small>
+
 ---
 layout: statement
 ---
@@ -253,6 +264,7 @@ layout: statement
     └── 20240105.piyo.md
 ```
 ````
+<small>[Content Directory \- Nuxt Content](https://content.nuxt.com/usage/content-directory)</small>
 
 ---
 
@@ -289,6 +301,8 @@ layout: statement
 </div>
 </div>
 
+<small>[JSON, YAML, CSV \- Nuxt Content](https://content.nuxt.com/usage/files)</small>
+
 ---
 
 # 最終的な `content` の構成
@@ -317,7 +331,7 @@ layout: statement
 
 # `queryContent()` による記事の取得
 
-## `find()` 記事一覧の取得
+## [`find()`](https://content.nuxt.com/composables/query-content#find) 記事一覧の取得
 
 ````md magic-move
 ```ts
@@ -363,7 +377,7 @@ const articles = await queryContent('articles')
 
 # `queryContent()` による記事の取得
 
-## `count()` 記事の件数を取得
+## [`count()`](https://content.nuxt.com/composables/query-content#count) 記事の件数を取得
 
 ````md magic-move
 ```ts
@@ -394,7 +408,7 @@ const count = await queryContent('articles')
 
 # `queryContent()` による記事の取得
 
-## `findOne()` 記事を1件だけ取得する
+## [`findOne()`](https://content.nuxt.com/composables/query-content#findone) 記事を1件だけ取得する
 
 ```ts
 const article = await queryContent(
@@ -486,6 +500,8 @@ layout: statement
 | `draft` | `boolean` | `false` | 下書きにできる（取得できなくなる） |
 | `head` | `object` | true | `<head>` の設定 |
 
+<small>[Markdown \- Nuxt Content](https://content.nuxt.com/usage/markdown#front-matter)</small>
+
 ---
 
 # 追加で必要な情報をfrontmatterに追加する
@@ -514,7 +530,7 @@ const article = await queryContent(`articles/${slug}`).findOne();
 
 # 対応する型を定義する
 
-これで型が効くようになる
+これで型が効くようになる <small>[TypeScript Support \- Nuxt Content](https://content.nuxt.com/usage/typescript#markdown-specific-types)</small>
 
 ```ts {all|2|5|5-12}
 import type {
@@ -574,6 +590,8 @@ const { data: articles } = await useAsyncData(
 );
 </script>
 ```
+
+<small>[queryContent\(\) \- Nuxt Content](https://content.nuxt.com/composables/query-content#important-%EF%B8%8F)</small>
 
 ---
 
@@ -674,6 +692,8 @@ layout: statement
 # 引用
 
 - [Installation \- Nuxt Content](https://content.nuxt.com/get-started/installation)
+- [Content Directory \- Nuxt Content](https://content.nuxt.com/usage/content-directory)
 - [queryContent\(\) \- Nuxt Content](https://content.nuxt.com/composables/query-content)
 - [Markdown \- Nuxt Content](https://content.nuxt.com/usage/markdown)
 - [JSON, YAML, CSV \- Nuxt Content](https://content.nuxt.com/usage/files)
+- [<ContentRenderer> \- Nuxt Content](https://content.nuxt.com/components/content-renderer)
